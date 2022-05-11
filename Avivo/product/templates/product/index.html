@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная Страница</title>
+</head>
+<body>
+    <ul>
+        {% for product in popular_product %}
+            <li>
+                <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
+                <a href="{% url 'product:product-detail' product.id %}">Перейти к продукту</a>
+                <p>{{ product.author }}</p>
+                <p>{{ product.date_pod }}</p>
+                <p>{{ product.description }}</p>
+                <p>Избранное: {{ product.likes_count }}</p>
+                <form method="post" action="{% url 'product:likes_product' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit">❤</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

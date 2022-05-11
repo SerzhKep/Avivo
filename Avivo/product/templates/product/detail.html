@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продукт #{{ product.id }}</title>
+</head>
+<body>
+    <a href="{% url 'product:index' %}">Перейти на главную</a>
+    <p>{{ product.author }}</p>
+    <p>{{ product.date_pod }}</p>
+    <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
+    <p>{{ product.description }}</p>
+    <p>{{ product.likes_count }}</p>
+</body>
+</html>
