@@ -7,7 +7,7 @@
     <title>Продукт #{{ product.id }}</title>
 </head>
 <body>
-    <a href="{% url 'product:index' %}">Перейти на главную</a>
+    <a href="{% url 'products:index' %}">Перейти на главную</a>
     <p>{{ product.author }}</p>
     <p>{{ product.date_pod }}</p>
     <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
