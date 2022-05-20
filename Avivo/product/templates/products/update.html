@@ -1,15 +1,14 @@
 {% extends 'products/base.html' %}
 
 {% block title %}
-    Создание нового продукта
+    Обновление продукта №{{ product.id }}
 {% endblock %}
 
 {% block page_content %}
-
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Создать</button>
-    </form>
 
+        {{ form.as_p }}
+        <button type="submit">Принять изменения</button>
+    </form>
 {% endblock %}

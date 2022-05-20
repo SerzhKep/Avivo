@@ -1,13 +1,13 @@
-from msilib.schema import Class
-from tokenize import Comment
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from .models import Product
+from django.views.generic import (ListView, DetailView, CreateView,
+                                  DeleteView, UpdateView)
+from django.core.exceptions import PermissionDenied
+from .models import Product, Comment
 from .forms import ProductForm, CommentForm
 
 
@@ -100,11 +100,48 @@ class ProductDelet(DeleteView):
     template_name = 'products/delete.html'
 
     def get_success_url(self):
-        return reverse('products:product-delete_success')
+        return reverse('products:product-delete-success')
 
-def product_edit(request, product_id):
-    response = f'Изменение продукта #{product_id}'
-    return HttpResponse(response)
+
+class CommentDelet(DeleteView):
+    model = Comment
+    pk_url_kwarg = 'id'
+
+    def get_success_url(self):
+        comment_id = self.kwargs['id']
+        comment = Comment.objects.get(id=comment_id)
+        return reverse('products:product-delete',
+                        args=(comment.product.id, ))
+
+
+class ProductUpdate(UpdateView):
+    form_class = ProductForm
+    model = Product
+    template_name = 'products/update.html'
+    pk_url_kwarg = 'product_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if self.request.user != obj.author:
+            raise PermissionDenied('Вы не автор этого продукта!')
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        image = self.object.image
+        description = self.object.description
+        form = self.get_form()
+
+        if form.is_valid():
+            if image != form.cleaned_data['image'] or description != form.cleaned_date['description']:
+                self.object.likes.clear()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+    
+    def get_success_url(self):
+        product_id = self.kwargs['product_id']
+        return reverse('products:product-detail', args=(product_id, ))
 
 
 

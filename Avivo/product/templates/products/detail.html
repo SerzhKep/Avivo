@@ -1,39 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Продукт #{{ product.id }}</title>
-</head>
-<body>
+{% extends 'products/base.html' %}
+
+{% block title %}
+    Продукт №{{ product.id }}
+{% endblock %}
+
+{% block page_content %}
     <a href="{% url 'products:index' %}">Перейти на главную</a>
     <p>{{ product.author }}</p>
     <p>{{ product.get_date_pub }}</p>
     <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
     <p>{{ product.description }}</p>
     <p>{{ product.likes_count }}</p>
-{% if product.author == user %}
-    <a href="{% url 'products:product-delete' product.id %}">🗑</a>
-{% endif %}
-    
+    {% if product.author == user %}
+        <a href="{% url 'products:product-delete' product.id %}">🗑</a>
+        <a href="{% url 'products:product-edit' product.id %}">🖊</a>
+    {% endif %}
+
     {% if comment %}
         <div>
             {% for comment in comments %}
-            <p>{{ comment.author }}</p>
-            <p>{{ comment.get_date_pub }}</p>
-            <p>{{ comment.text }}</p>
-            <hr>
+                <p>{{ comment.author }}</p>
+                <p>{{ comment.get_date_pub }}</p>
+                <p>{{ comment.text }}</p>
+                {% if comment.author == user %}
+                    <form method="post" action="{% url 'products:comment-delete' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">🗑</button>
+                    </form>
+                {% endif %}
+                <hr>
             {% endfor %}
         </div>
     {% endif %}
 
     {% if comment_form %}
-    <form method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit">Комментировать</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Комментировать</button>
+        </form>
     {% endif %}
-</body>
-</html>
+{% endblock %}
