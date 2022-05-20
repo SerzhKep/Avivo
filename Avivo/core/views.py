@@ -31,6 +31,9 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            return redirect(MAIN_PAGE_URL)
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 @login_required
