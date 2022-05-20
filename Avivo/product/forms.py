@@ -1,7 +1,4 @@
-from cProfile import label
-from tkinter import Widget
 from django import forms
-
 from .models import Product, Comment
 
 
@@ -15,11 +12,10 @@ class ProductForm(forms.ModelForm):
             'description': 'Описание',
             'image': 'Фотография'
         }
-        Widgets = {
+        widgets = {
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите описание'
-            })
+                'placeholder': 'Введите описание'})
         }
 
     def clean_image(self):
@@ -32,3 +28,11 @@ class ProductForm(forms.ModelForm):
         else:
             raise forms.ValidationError('Не удалось прочитать файл')
 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        labels = {
+            'text': 'Комментарий'
+        }

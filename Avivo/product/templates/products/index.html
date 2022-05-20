@@ -8,12 +8,12 @@
 </head>
 <body>
     <ul>
-        {% for product in popular_products %}
+        {% for product in products %}
             <li>
                 <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
                 <a href="{% url 'products:product-detail' product.id %}">Перейти к продукту</a>
                 <p>Автор: {{ product.author }}</p>
-                <p>{{ product.date_pub }}</p>
+                <p>{{ product.get_date_pub }}</p>
                 <p>Описание: {{ product.description }}</p>
                 <p>Likes: {{ product.likes_count }} </p>
                 <form method="post" action="{% url 'products:product-like' product.id %}">

@@ -9,9 +9,29 @@
 <body>
     <a href="{% url 'products:index' %}">Перейти на главную</a>
     <p>{{ product.author }}</p>
-    <p>{{ product.date_pod }}</p>
+    <p>{{ product.get_date_pub }}</p>
     <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
     <p>{{ product.description }}</p>
     <p>{{ product.likes_count }}</p>
+
+    
+    {% if comment %}
+        <div>
+            {% for comment in comments %}
+            <p>{{ comment.author }}</p>
+            <p>{{ comment.get_date_pub }}</p>
+            <p>{{ comment.text }}</p>
+            <hr>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if comment_form %}
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Комментировать</button>
+    </form>
+    {% endif %}
 </body>
 </html>
