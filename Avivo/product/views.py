@@ -52,7 +52,7 @@ class ProductDetail(DetailView):
             context['comment_form'] = self.comment_form
         return self.render_to_response(context)
 
-    def product(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.comment_form(request.POST)
         if form.is_valid():
@@ -81,6 +81,7 @@ class ProductCreate(CreateView):
     @method_decorator(login_required(login_url='/admin/'))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
     @method_decorator(login_required(login_url='/admin/'))
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -133,7 +134,7 @@ class ProductUpdate(UpdateView):
         form = self.get_form()
 
         if form.is_valid():
-            if image != form.cleaned_data['image'] or description != form.cleaned_date['description']:
+            if image != form.cleaned_data['image'] or description != form.cleaned_data['description']:
                 self.object.likes.clear()
             return self.form_valid(form)
         else:

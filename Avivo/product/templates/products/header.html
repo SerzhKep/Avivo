@@ -1,1 +1,9 @@
-<header>Заголовок</header>
+<header>
+    {% if user.is_authenticated %}
+        <p>Привет, {{ user.username }}</p>
+        <a href="{% url 'core:logout' %}">Выйти</a>
+    {% else %}
+        <a href="{% url 'core:login' %}">Войти</a>
+    {% endif %}
+    <hr>
+</header>

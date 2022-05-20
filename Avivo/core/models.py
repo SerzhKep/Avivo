@@ -3,10 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
-
-
-
 def user_avatar_path(instance, filename):
     user_id = instance.user.id
     return f'user_{user_id}/avatar/{filename}'
