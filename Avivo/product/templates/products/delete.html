@@ -1,0 +1,10 @@
+{% if product.author != user %}
+    <h1>Удалить данный продукт может только автор!</h1>
+{% else %}
+    <h1>Вы действительно хотите удалить данный продукт?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">🗑Удалить!</button>
+    </form>
+    <a href="{% url 'products:product-detail' product.id %}">Нет!</a>
+{% endif %}

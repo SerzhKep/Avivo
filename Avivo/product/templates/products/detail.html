@@ -13,7 +13,9 @@
     <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
     <p>{{ product.description }}</p>
     <p>{{ product.likes_count }}</p>
-
+{% if product.author == user %}
+    <a href="{% url 'products:product-delete' product.id %}">🗑</a>
+{% endif %}
     
     {% if comment %}
         <div>

@@ -1,3 +1,4 @@
+from msilib.schema import Class
 from tokenize import Comment
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
@@ -5,7 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from .models import Product
 from .forms import ProductForm, CommentForm
 
@@ -42,7 +43,6 @@ class ProductDetail(DetailView):
     comment_form = CommentForm
     comment_model = Comment
 
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=object)
@@ -74,18 +74,16 @@ class ProductDetail(DetailView):
         return comments
 
 
+class ProductCreate(CreateView):
+    form_class = ProductForm
+    template_name = 'products/create.html'
 
-def product_edit(request, product_id):
-    response = f'Изменение продукта #{product_id}'
-    return HttpResponse(response)
-
-@login_required(login_url='/admin/')
-def product_create(request):
-    form = ProductForm()
-    if request.method == 'GET':
-        return render(request, 'products/create.html', {'form': form})
-    elif request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
+    @method_decorator(login_required(login_url='/admin/'))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    @method_decorator(login_required(login_url='/admin/'))
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             product =form.save(commit=False)
             product.author = request.user
@@ -94,13 +92,18 @@ def product_create(request):
                                     kwargs={'product_id': product.id}))
         else:
             return render(request, 'products/create.html', {'form': form})
-    
-    return HttpResponse('Создание нового продукта!')
 
 
-def product_delet(request, product_id):
-    response = f'Удалили продукт #{product_id}'
+class ProductDelet(DeleteView):
+    model = Product
+    pk_url_kwarg = 'product_id'
+    template_name = 'products/delete.html'
+
+def product_edit(request, product_id):
+    response = f'Изменение продукта #{product_id}'
     return HttpResponse(response)
+
+
 
 @login_required(login_url='/admin/')
 def product_like(request, product_id):
