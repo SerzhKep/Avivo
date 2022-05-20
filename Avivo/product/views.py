@@ -99,6 +99,9 @@ class ProductDelet(DeleteView):
     pk_url_kwarg = 'product_id'
     template_name = 'products/delete.html'
 
+    def get_success_url(self):
+        return reverse('products:product-delete_success')
+
 def product_edit(request, product_id):
     response = f'Изменение продукта #{product_id}'
     return HttpResponse(response)
