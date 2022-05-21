@@ -6,6 +6,7 @@ from django.contrib.auth.forms import (AuthenticationForm,
 )
 from django.contrib.auth.models import User
 from django import forms
+from product.widgets import PictureWidget
 
 from .models import Profile
 
@@ -24,6 +25,7 @@ class LoginForm(AuthenticationForm):
     error_messages = {
         'invalid_login': 'Введён неправильный логин или пароль'
     }
+    
 
 
 class SignupForm(UserCreationForm):
@@ -59,7 +61,7 @@ class SignupForm(UserCreationForm):
         return email
 
 
-DATE_FORMAT = '%d-%m-%Y'
+DATE_FORMAT = '%d.%m.%Y'
 
 
 class UdateProfileForm(forms.ModelForm):
@@ -77,11 +79,16 @@ class UdateProfileForm(forms.ModelForm):
             'about': 'Обо мне',
             'avatar': 'Фото профиля'
         }
+        widgets = {
+            'avatar': PictureWidget()
+        }
+
 
     def clean_avatar(self):
         image = self.cleaned_data.get('avatar')
         if image:
             if image.size > self.max_size_img*1024*1024:
                 raise forms.ValidationError('Файл должен быть меньше {self.max_size_img} МБ')
-            else:
-                raise forms.ValidationError('Не удалось прочитать файл')
+            return image
+        else:
+            raise forms.ValidationError('Не удалось прочитать файл')

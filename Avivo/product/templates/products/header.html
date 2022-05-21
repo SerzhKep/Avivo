@@ -1,10 +1,12 @@
 <header>
+    <p><a href="{% url 'products:index' %}">На главную</a></p>
     {% if user.is_authenticated %}
-        <p>Привет, {{ user.username }}</p>
-        <a href="{% url 'core:logout' %}">Выйти</a>
+        <p>Привет, <a href="{% url 'core:profile-detail' user.profile.id %}">{{ user.username }}</a></p>
+        <p><a href="{% url 'products:feed' %}">Мои подписки</a></p>
+        <p><a href="{% url 'core:logout' %}">Выйти</a></p>
     {% else %}
-        <a href="{% url 'core:login' %}">Войти</a>
-        <a href="{% url 'core:sign_up' %}">Зарегистрироваться</a>
+        <p><a href="{% url 'core:login' %}">Войти</a></p>
+        <p><a href="{% url 'core:sign_up' %}">Зарегистрироваться</a></p>
     {% endif %}
     <hr>
 </header>

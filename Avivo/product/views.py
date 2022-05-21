@@ -31,7 +31,7 @@ class FeedView(IndexView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        friends_list = self.request.user.profile.subscribers.all()
+        friends_list = self.request.user.profile.subscriptions.all()
         queryset = Product.objects.filter(author__in=friends_list)
         return queryset
 
