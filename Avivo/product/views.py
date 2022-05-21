@@ -111,7 +111,7 @@ class CommentDelet(DeleteView):
     def get_success_url(self):
         comment_id = self.kwargs['id']
         comment = Comment.objects.get(id=comment_id)
-        return reverse('products:product-delete',
+        return reverse('products:product-detail',
                         args=(comment.product.id, ))
 
 

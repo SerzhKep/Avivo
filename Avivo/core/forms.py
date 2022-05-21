@@ -1,5 +1,6 @@
 from cProfile import label
 from dataclasses import fields
+import email
 from django.contrib.auth.forms import (AuthenticationForm,
     UsernameField, UserCreationForm
 )
@@ -36,6 +37,15 @@ class SignupForm(UserCreationForm):
         widget= forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'})
     )
 
+    email = forms.CharField(
+        label='Email',
+        widget=forms.TextInput(attrs={'placeholder': 'Email'})
+    )
+
+    username = forms.CharField(
+        label='Логин',
+        widget=forms.TextInput(attrs={'placeholder': 'Логин'})
+    )
     class Meta:
         model = User
         fields = ('username','email')

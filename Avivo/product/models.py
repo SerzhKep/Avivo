@@ -38,4 +38,4 @@ class Comment(models.Model):
     dete_edit = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'author - {self.author.username}, publicatede - {self.dete_pub}, product - {self.product.description[:15]}...'
+        return f'author - {self.author.username}, publicatede - {self.date_pub}, product - {self.product.description[:15]}...'
