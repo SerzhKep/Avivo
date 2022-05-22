@@ -18,7 +18,7 @@ class ProductForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Введите описание'
             }),
-            'image': PictureWidget()
+            # 'image': PictureWidget()
         }
 
     def clean_image(self):

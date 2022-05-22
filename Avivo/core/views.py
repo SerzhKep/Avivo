@@ -9,6 +9,9 @@ from django.urls import reverse
 from .models import Profile 
 from .forms import LoginForm, SignupForm, UdateProfileForm
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 MAIN_PAGE_URL = '/'
 
@@ -53,7 +56,7 @@ class ProfileUpdate(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
         if obj.user != request.user:
-            raise Http404('Такой страницы нет!')
+            return redirect(reverse('core:profile-detail', args=(obj.user.profile.id,)))
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
@@ -76,3 +79,5 @@ class SubscribeView(View):
 def logout_view(request):
     logout(request)
     return redirect(MAIN_PAGE_URL)
+
+

@@ -17,7 +17,7 @@
                 <p>Likes: {{ product.likes_count }} </p>
                 <form method="post" action="{% url 'products:product-like' product.id %}">
                     {% csrf_token %}
-                    <button type="submit">✅</button>
+                    <button type="submit">🧡</button>
                 </form>
             </li>
         {% endfor %}
