@@ -6,4 +6,8 @@ class PictureWidget(forms.widgets.FileInput):
     def render(self, name, value, attrs=None, **kwargs):
         html = Template(f"""<img src="$link" style="width: 250px; height: 250px;"/> 
                             <input type="file" name={name} accept="{name}/*" id="id_{name}">""")
-        return mark_safe(html.substitute(link=value.url))
+        try:
+            result = mark_safe(html.substitute(link=value.url))
+        except AttributeError:
+            result = mark_safe(html.substitute(link='#'))
+        return result
