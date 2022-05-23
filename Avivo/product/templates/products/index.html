@@ -6,20 +6,23 @@
 
 {% block page_content %}
 
-    <ul>
-        {% for product in products %}
-            <li>
-                <img src="{{ product.image.url }}" style="width: 250px; height: 250px;">
-                <a href="{% url 'products:product-detail' product.id %}">Перейти к продукту</a>
+
+    {% for product in products %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Описание: {{ product.description }}</h5>
                 <a href="{% url 'core:profile-detail' product.author.profile.id %}">Автор: {{ product.author }}</a>
-                <p>{{ product.get_date_pub }}</p>
-                <p>Описание: {{ product.description }}</p>
-                <p>Likes: {{ product.likes_count }} </p>
+                <p class="card-text">Опубликованно: {{ product.get_date_pub }}</p>
+                <a href="{% url 'products:product-detail' product.id %}">Перейти к продукту</a>
+                <p class="card-text">Likes: {{ product.likes_count }}</p>
                 <form method="post" action="{% url 'products:product-like' product.id %}">
                     {% csrf_token %}
                     <button type="submit">🧡</button>
                 </form>
-            </li>
-        {% endfor %}
-    </ul>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
+
+

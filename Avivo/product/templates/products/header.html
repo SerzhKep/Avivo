@@ -1,12 +1,41 @@
 <header>
-    <p><a href="{% url 'products:index' %}">На главную</a></p>
-    {% if user.is_authenticated %}
-        <p>Привет, <a href="{% url 'core:profile-detail' user.profile.id %}">{{ user.username }}</a></p>
-        <p><a href="{% url 'products:feed' %}">Мои подписки</a></p>
-        <p><a href="{% url 'core:logout' %}">Выйти</a></p>
-    {% else %}
-        <p><a href="{% url 'core:login' %}">Войти</a></p>
-        <p><a href="{% url 'core:sign_up' %}">Зарегистрироваться</a></p>
-    {% endif %}
-    <hr>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'products:index' %}">Avivo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'products:index' %}">На главную</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'products:product-create' %}">Создать новый продукт</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'products:feed' %}">Мои подписки</a>
+            </li>
+            <li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Избранные продукты</a>
+                </li>
+                <a class="nav-link" href="{% url 'core:logout' %}">Выйти</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'core:login' %}">Войти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'core:sign_up' %}">Зарегистрироваться</a>
+            </li>
+            {% endif %}
+            </ul>
+        </div>
+        </div>
+    </nav>
 </header>
+
+
+

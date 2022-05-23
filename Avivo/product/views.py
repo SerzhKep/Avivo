@@ -156,3 +156,8 @@ def product_like(request, product_id):
         product.likes.add(user)
         product.save()
     return redirect(request.META.get('HTTP_REFERER'), request)
+
+
+
+
+
