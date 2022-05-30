@@ -132,4 +132,4 @@ dmypy.json
 venv/
 __pycache__/
 */sqlite3
-Avivo/static
+./static/

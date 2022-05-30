@@ -8,6 +8,7 @@ from django.contrib.auth import logout, login
 from django.urls import reverse
 from .models import Profile 
 from .forms import LoginForm, SignupForm, UdateProfileForm
+from django.contrib.auth.views import LoginView as DjangoLoginView
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -15,7 +16,7 @@ from django.core.mail import send_mail
 
 MAIN_PAGE_URL = '/'
 
-class LoginView(LoginView):
+class LoginView(DjangoLoginView):
     template_name = 'core/login.html'
     form_class = LoginForm
     next_page = MAIN_PAGE_URL

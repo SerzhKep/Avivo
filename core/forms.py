@@ -76,7 +76,7 @@ class UdateProfileForm(forms.ModelForm):
     birth_date = forms.DateField(label='Дата рождения',
                                  input_formats=[DATE_FORMAT],
                                  widget=forms.DateInput(
-                                     format=(DATE_FORMAT),
+                                    format=(DATE_FORMAT),
                                     attrs={'placeholder': 'dd-mm-yyyy'}))
 
     class Meta:
